@@ -1,7 +1,7 @@
 # Protocol Specification — draft v0.1
 
 > Draft. Nothing here is adopted law. Governance parts take effect only when members adopt them.
-> Sections marked **[FOUNDER]** need the founder's input; **[ARCHITECT]** are technical decisions left to the builder.
+> **Proposed default** marks the founder's current starting position — open to challenge in an issue. **[ARCHITECT]** marks technical decisions left to the builder.
 
 ## 1. Actors
 
@@ -18,7 +18,8 @@ Roles are functions, not ranks. One person may hold several Seals; one sign may 
 
 - Chain: **Base**. Open mint, ~0.0015 ETH.
 - Purpose: mark of a Seeker's choice; gives access to the Seekers' Hall (Season I).
-- Contract address: **[FOUNDER]** add here and verify on Basescan.
+- Contract: [`0xe7922d3Ed1EA62466da8589cc7Fe2a111f66CaEF`](https://basescan.org/address/0xe7922d3Ed1EA62466da8589cc7Fe2a111f66CaEF) — token *Cirqus Heresy: Temples* (CIRQUSH). Collection on [OpenSea](https://opensea.io/collection/cirqus-heresy-temples).
+- Source verification and a list of privileged functions: see issue #1.
 
 Requirements for future contracts: the protocol reads Temple ownership but never depends on Temple for voting power. A Temple is a door, not a vote.
 
@@ -27,8 +28,8 @@ Requirements for future contracts: the protocol reads Temple ownership but never
 Six Seals: Trickster, Inquisitor, Oracle, Alchemist, Architect, Mage.
 
 - **Non-transferable** (soulbound, e.g. ERC-5192 or ERC-1155 with transfers disabled). *Granted for contribution, never sold.*
-- **Granting:** by existing holders of the same sign, or by the Hexastorm while a sign has no holders. **[FOUNDER]** threshold — one granter, or N of M?
-- **Revocation:** only by decision of the sign's chamber, logged on-chain with a reason hash. **[FOUNDER]** is revocation allowed at all?
+- **Granting — proposed default:** during the founding period, the founder grants Seals. Once a sign has at least three holders, a new Seal of that sign requires **two existing holders** of the same sign to co-sign. Every grant links to the contribution it recognises.
+- **Revocation — proposed default:** allowed, but only by a decision of the holder's chamber, never by one person. The reason is published and its hash logged on-chain. Grounds: fraud, impersonation, or a serious Code of Conduct breach — not disagreement.
 - **Exit:** a holder can burn their own Seal at any time (*Keep the exit real*).
 - **Metadata:** sign, grant date, granter, link to the contribution (PR, article, case).
 
@@ -53,9 +54,9 @@ Rules:
 - Funds never sit in an account the Order controls; only in the deal contract.
 - Creator keeps authorship of the work in every outcome.
 - Either party can cancel **before** acceptance and get funds back.
-- Order fee: **[FOUNDER]** 0%, fixed, or percent? To treasury?
+- **Order fee — proposed default: 0%** at launch, to earn the first users' trust. Any future fee is a `both`-scope decision and goes to the treasury.
 
-Disputes: **[FOUNDER]** who arbitrates — Inquisitors, a random panel of Seal holders, or an external protocol (e.g. Kleros)?
+**Disputes — proposed default:** a panel of **three Inquisitors** not connected to either party, decision by majority within 14 days, reasoning published. As volume grows, move to an external arbitration protocol (e.g. Kleros) so the Order is not judge in its own house.
 
 ## 5. Chambers and decisions
 
@@ -68,7 +69,7 @@ From the [structure](https://cirqusheresy.com/structure):
 
 Proposed mechanics:
 - **Creative Chamber vote:** one Seal holder = one vote (not one Seal = one vote — holding five Seals does not multiply your voice). **[ARCHITECT]** how to enforce one-person-one-vote without doxxing.
-- **Leverage Chamber vote:** Mage holders. Capital may weight votes **inside** this chamber only. **[FOUNDER]** yes/no?
+- **Leverage Chamber vote — proposed default:** one Mage = one vote. Capital does **not** weight votes, even inside the Leverage Chamber — *capital strengthens the Order, it does not buy command of it.*
 - **Scope tag** on every proposal: `creative`, `leverage`, `both`. Wrong scope can be challenged by either chamber.
 - Start **off-chain** (Snapshot with Seal-based strategy), move on-chain once stable.
 
@@ -80,15 +81,15 @@ On-chain footprint (minimal): a 6-seat registry and the ability to *publish* pro
 
 ## 7. Treasury
 
-- Multisig (Safe) on Base. **[FOUNDER]** signers and threshold.
+- **Proposed default:** Safe multisig on Base, **2-of-3** at start (founder + two members from different signs), growing to 3-of-5 as the Hexastorm fills.
 - Spending from the treasury is a `both`-scope decision.
 - All addresses and movements are published in [`governance/treasury`](https://github.com/CirqusHeresy/governance/tree/main/treasury).
 
 ## Open questions
 
-1. Seal granting threshold and whether revocation exists.
-2. Escrow fee and dispute arbitration model.
-3. Whether capital weights votes inside the Leverage Chamber.
+1. Seal granting threshold and revocation — proposed default in §3; open to challenge.
+2. Escrow fee and dispute arbitration — proposed default in §4; open to challenge.
+3. Capital weighting in the Leverage Chamber — proposed default: no (§5).
 4. One-person-one-vote: proof-of-personhood option (Gitcoin Passport, World ID, social vouching) vs. accepting Sybil risk while the Order is small.
 5. Stack: Solidity/Foundry on Base assumed — any reason to choose otherwise?
 6. Upgradeability: immutable contracts with migration, or upgradeable proxies with a timelock?
